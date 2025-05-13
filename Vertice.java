@@ -3,9 +3,9 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
-public class Vertice{
+public class Vertice<T>{
     private int key;
-    private Set<Arco> arcos;
+    private Set<Arco<T>> arcos;
 
     Vertice(int key){
         this.key = key;
@@ -20,30 +20,30 @@ public class Vertice{
         this.key = value;
     }
 
-    public Set<Arco> getArcos() {
+    public Set<Arco<T>> getArcos() {
         return this.arcos;
     }
 
-    public void setArcos(HashSet<Arco> arcos) {
+    public void setArcos(HashSet<Arco<T>> arcos) {
         this.arcos = arcos;
     }
 
-    public void addArco(Arco arco){
+    public void addArco(Arco<T> arco){
         this.arcos.add(arco);
     }
 
-    public void deleteArco(Arco arco) {
+    public void deleteArco(Arco<T> arco) {
         this.arcos.remove(arco);
     }
 
-    public boolean contieneArco(Arco arco){
+    public boolean contieneArco(Arco<T> arco){
         return this.arcos.contains(arco);
     }
 
-    public Arco getArco(Arco arco){
-        Arco arcoEncontrado = null;
+    public Arco<T> getArco(Arco<T> arco){
+        Arco<T> arcoEncontrado = null;
         if(this.arcos.contains(arco)){
-            for (Arco elem : this.arcos) {
+            for (Arco<T> elem : this.arcos) {
                 if(elem.equals(arco)){
                     arcoEncontrado = elem;
                 }
@@ -60,7 +60,7 @@ public class Vertice{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Vertice vertice = (Vertice) o;
+        Vertice<?> vertice = (Vertice<?>) o;
         return key == vertice.key;
     }
 

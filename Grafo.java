@@ -34,9 +34,9 @@ public interface Grafo<T> {
     // Obtiene un iterador que me permite recorrer todos los vertices adyacentes a verticeId
     public Iterator<Integer> obtenerAdyacentes(int verticeId);
 
-//    // Obtiene un iterador que me permite recorrer todos los arcos del grafo
-//    public Iterator<Arco<T>> obtenerArcos();
-//
-//    // Obtiene un iterador que me permite recorrer todos los arcos que parten desde verticeId
-//    public Iterator<Arco<T>> obtenerArcos(int verticeId);
+    // Obtiene un iterador que me permite recorrer todos los arcos del grafo
+    public Iterator<Arco<T>> obtenerArcos();
+
+    // Obtiene un iterador que me permite recorrer todos los arcos que parten desde verticeId
+    public Iterator<Arco<T>> obtenerArcos(int verticeId);
 }

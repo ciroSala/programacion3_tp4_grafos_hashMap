@@ -30,7 +30,7 @@ public class Arco<T> {
     }
 
     public T getEtiqueta() {
-        return etiqueta;
+        return this.etiqueta;
     }
 
     @Override
