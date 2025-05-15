@@ -2,7 +2,7 @@
 import java.util.*;
 
 public class GrafoDirigido<T> implements Grafo<T> {
-    private Map<Integer,Vertice<T>> vertices;
+    private final Map<Integer,Vertice<T>> vertices;
 
     public GrafoDirigido(){
         this.vertices = new HashMap<>(20);
@@ -12,36 +12,38 @@ public class GrafoDirigido<T> implements Grafo<T> {
     @Override
     public void agregarVertice(int verticeId) {
         // TODO Auto-generated method stub
-        Vertice<T> vertice = new Vertice(verticeId);
+        Vertice<T> vertice = new Vertice<>(verticeId);
         vertices.put(vertice.getKey(), vertice);
     }
 
     @Override
     public void borrarVertice(int verticeId) {
-        // Borro el vertice de mi map
-        this.vertices.remove(verticeId);
-        // Busco los vertices que lo tengan como adyacente
-        Collection<Vertice<T>> collection = this.vertices.values();
-        // En cada vertice borro el arco con el destino del vertice borrado si es que lo tienen
-        for(Vertice elem : collection){
-            Arco<T> arco = new Arco<>(elem.getKey(),verticeId);
-            elem.deleteArco(arco);
+        // Verifico si existe el vertice
+        Vertice<T> vertice = this.vertices.get(verticeId);
+        if(vertice != null){
+            // Borro el vertice de mi map
+            this.vertices.remove(verticeId);
+            // Busco los vertices que lo tengan como adyacente
+            Collection<Vertice<T>> collection = this.vertices.values();
+            // En cada vertice borro el arco con el destino del vertice borrado si es que lo tienen
+            Arco<T> arco = new Arco<>(verticeId);
+            for(Vertice<T> elem : collection){
+                elem.deleteArco(arco);
+            }
         }
     }
 
     @Override
     public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
         // TODO Auto-generated method stub
-        Vertice vertice1 = this.vertices.get(verticeId1);
-        Vertice vertice2 = this.vertices.get(verticeId2);
-        //verificar que existan los dos vertices
+        Vertice<T> vertice1 = this.vertices.get(verticeId1);
+        Vertice<T> vertice2 = this.vertices.get(verticeId2);
+        //verifico que existan los dos vertices
         if(vertice1 != null && vertice2 !=null){
-            // Crear y agregar arco en vertice 1 (HashSet se encarga de gestionar de no
+            // Crear y agrego arco en vertice 1 (HashSet se encarga de gestionar de no
             // agregar repetidos, gracias al HashCode y equals)
-            Arco<T> arco = new Arco<>(verticeId1, verticeId2, etiqueta);
+            Arco<T> arco = new Arco<>(verticeId2, etiqueta);
             vertice1.addArco(arco);
-        }else{
-            System.out.println("No se puede agregar el arco");
         }
     }
 
@@ -49,11 +51,12 @@ public class GrafoDirigido<T> implements Grafo<T> {
     public void borrarArco(int verticeId1, int verticeId2) {
         // TODO Auto-generated method stub
         // Buscar el vertice de origen
-        Vertice vertice1 = this.vertices.get(verticeId1);
-        if(vertice1!=null){
-            //   Crear un arco con los mismos valores del arco que se quiere eliminar,
+        Vertice<T> vertice1 = this.vertices.get(verticeId1);
+        Vertice<T> vertice2 = this.vertices.get(verticeId2);
+        if(vertice1!=null && vertice2 != null){
+            //  Crear un arco con los mismos valores del arco que se quiere eliminar,
             //  borrar el arco igual al nuevo, en el vertice de origen
-            Arco<T> arco = new Arco(verticeId1,verticeId2);
+            Arco<T> arco = new Arco<>(verticeId2);
             vertice1.deleteArco(arco);
         }
     }
@@ -68,22 +71,24 @@ public class GrafoDirigido<T> implements Grafo<T> {
     @Override
     public boolean existeArco(int verticeId1, int verticeId2) {
         // TODO Auto-generated method stub
-        // Buscar el vertice de origen
-        Vertice vertice = this.vertices.get(verticeId1);
-        if(vertice!=null){
-            Arco arco = new Arco<>(verticeId1,verticeId2);
-            return vertice.contieneArco(arco);
+        // Verificar si existen los dos vertices
+        Vertice<T> vertice1 = this.vertices.get(verticeId1);
+        Vertice<T> vertice2 = this.vertices.get(verticeId2);
+        if(vertice1 !=null && vertice2 != null){
+            Arco<T> arco = new Arco<>(verticeId2);
+            return vertice1.contieneArco(arco);
         }
         return false;
     }
 
     @Override
     public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
-        // Buscar el vertice de origen
-        Vertice vertice = this.vertices.get(verticeId1);
-        if(vertice!=null){
-            Arco arco = new Arco<>(verticeId1,verticeId2);
-            return vertice.getArco(arco);
+        // Verificar que existen los dos vertices
+        Vertice<T> vertice1 = this.vertices.get(verticeId1);
+        Vertice<T> vertice2 = this.vertices.get(verticeId2);
+        if(vertice1!=null && vertice2 !=null){
+            Arco<T> arco = new Arco<>(verticeId2);
+            return vertice1.getArco(arco);
         }
         return null;
     }
@@ -96,7 +101,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
     @Override
     public int cantidadArcos() {
-        int resultado = 0;
+        int cantArcos = 0;
         // Obtener conjunto de valores (vertices)
         Collection<Vertice<T>> vertices = this.vertices.values();
 
@@ -105,10 +110,10 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
         // Sumo los arcos de cada vertice
         while(iterator.hasNext()){
-            // Agarro cada vertice con la clave y le pido la cantidad de arcos
-            resultado += iterator.next().cantArcos();
+            // Agarro cada vertice y le pido la cantidad de arcos
+            cantArcos += iterator.next().cantArcos();
         }
-        return resultado;
+        return cantArcos;
     }
 
     @Override
@@ -139,21 +144,16 @@ public class GrafoDirigido<T> implements Grafo<T> {
     }
 
     public Iterator<Arco<T>> obtenerArcos() {
-        // Creo una lista vinculada de arcos donde voy a guardar cada arco
+        // Creo una lista vinculada de arcos (Porque si uso un set, no me va a agregar los arcos con mismo destino)
         LinkedList<Arco<T>> arcosTotales = new LinkedList<>();
         // Recorro todos mis vertices y le pido los arcos a cada uno
         // Obtener conjunto de valores (vertices)
         Collection<Vertice<T>> vertices = this.vertices.values();
         // Creo un iterador para recorrer los vertices
-        Iterator<Vertice<T>> iterator = vertices.iterator();
-        // Por cada vertice obtengo sus arcos y los itero arco por arco, cada arco lo agrego a la lista vinculada
-        while(iterator.hasNext()){
-            // Agarro cada vertice con la clave y le pido la cantidad de arcos
-            Set<Arco<T>> arcosVertice = iterator.next().getArcos();
-            Iterator<Arco<T>> iterator2 = arcosVertice.iterator();
-            while(iterator2.hasNext()){
-                arcosTotales.add(iterator2.next());
-            }
+        Iterator<Vertice<T>> iteratorVertices = vertices.iterator();
+        // Por cada vertice obtengo sus arcos y los agrego a mi conjunto de arcos totales
+        while(iteratorVertices.hasNext()){
+            arcosTotales.addAll(iteratorVertices.next().getArcos());
         }
         return arcosTotales.iterator();
     }
@@ -163,9 +163,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
         // Agarro el vertice y si existe obtengo sus arcos
         Vertice<T> vertice = this.vertices.get(verticeId);
         if(vertice!=null){
-            Set<Arco<T>> arcos = vertice.getArcos();
-            Iterator<Arco<T>> iterator = arcos.iterator();
-            return iterator;
+            return vertice.getArcos().iterator();
         }
         return null;
     }

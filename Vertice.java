@@ -4,20 +4,18 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Vertice<T>{
-    private int key;
+    private final int key;
     private Set<Arco<T>> arcos;
+    private String color;
 
     Vertice(int key){
         this.key = key;
         this.arcos = new HashSet<>();
+        this.color = "blanco";
     }
 
     public int getKey() {
         return this.key;
-    }
-
-    public void setValue(int value) {
-        this.key = value;
     }
 
     public Set<Arco<T>> getArcos() {
@@ -41,19 +39,26 @@ public class Vertice<T>{
     }
 
     public Arco<T> getArco(Arco<T> arco){
-        Arco<T> arcoEncontrado = null;
         if(this.arcos.contains(arco)){
             for (Arco<T> elem : this.arcos) {
                 if(elem.equals(arco)){
-                    arcoEncontrado = elem;
+                    return elem;
                 }
             }
         }
-        return arcoEncontrado;
+        return null;
     }
 
     public int cantArcos(){
         return this.arcos.size();
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     @Override
@@ -61,7 +66,7 @@ public class Vertice<T>{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vertice<?> vertice = (Vertice<?>) o;
-        return key == vertice.key;
+        return key == vertice.getKey();
     }
 
     @Override

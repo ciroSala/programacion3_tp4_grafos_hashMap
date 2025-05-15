@@ -1,24 +1,17 @@
 import java.util.Objects;
 
 public class Arco<T> {
-    private int verticeOrigen;
-    private int verticeDestino;
+    private final int verticeDestino;
     private T etiqueta;
 
-    public Arco(int verticeOrigen, int verticeDestino) {
-        this.verticeOrigen = verticeOrigen;
+    public Arco(int verticeDestino) {
         this.verticeDestino = verticeDestino;
         this.etiqueta = null;
     }
 
-    public Arco(int verticeOrigen, int verticeDestino, T etiqueta) {
-        this.verticeOrigen = verticeOrigen;
+    public Arco(int verticeDestino, T etiqueta) {
         this.verticeDestino = verticeDestino;
         this.etiqueta = etiqueta;
-    }
-
-    public int getVerticeOrigen() {
-        return verticeOrigen;
     }
 
     public int getVerticeDestino() {
@@ -38,12 +31,12 @@ public class Arco<T> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Arco<?> arco = (Arco<?>) o;
-        return verticeOrigen == arco.verticeOrigen && verticeDestino == arco.verticeDestino;
+        return verticeDestino == arco.verticeDestino;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(verticeOrigen, verticeDestino);
+        return this.verticeDestino;
     }
 }
 

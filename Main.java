@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Iterator;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -5,36 +6,45 @@ import java.util.Iterator;
 public class Main {
     public static void main(String[] args) {
         // Creo un grafo dirigdo donde las etiquetas de los arcos son valores Float
-        GrafoDirigido<Integer> grafito = new GrafoDirigido<>();
+        GrafoNoDirigido<String> grafito = new GrafoNoDirigido<>();
 
         // Agrego los vertices 1 y 2
+        grafito.agregarVertice(20);
         grafito.agregarVertice(1);
-        grafito.agregarVertice(3);
         grafito.agregarVertice(2);
-        grafito.agregarVertice(4);
         grafito.agregarVertice(5);
+        grafito.agregarVertice(4);
+        grafito.agregarVertice(8);
+        grafito.agregarVertice(34);
+        grafito.agregarVertice(7);
 
-        // Genero un arco desde 1 hasta 2 con el valor de etiqueta 3
-        grafito.agregarArco(4, 3, 10);
-        grafito.agregarArco(4, 2, 20);
-        grafito.agregarArco(1, 4, 30);
-        grafito.agregarArco(5, 1, 40);
-        grafito.agregarArco(2, 3, 50);
-        grafito.agregarArco(2, 5, 60);
+        grafito.agregarVertice(15); // Vertice separado
 
-        Iterator<Integer> adyacentes = grafito.obtenerAdyacentes(2);
-        while (adyacentes.hasNext()){
-            System.out.println(adyacentes.next());
-        }
+        grafito.agregarArco(8, 4, null);
+        grafito.agregarArco(8, 20, null);
+        grafito.agregarArco(20, 2, null);
+        grafito.agregarArco(4, 5, null);
+        grafito.agregarArco(4, 2, null);
+        grafito.agregarArco(2, 1, null);
+        grafito.agregarArco(5, 1, null);
+        grafito.agregarArco(20, 34, null);
+        grafito.agregarArco(34, 7, null);
 
-        Iterator<Integer> adyacentes2 = grafito.obtenerAdyacentes(4);
-        while (adyacentes2.hasNext()){
-            System.out.println(adyacentes2.next());
-        }
 
-        Iterator<Arco<Integer>> iterator = grafito.obtenerArcos();
+        Iterator<Arco<String>> iterator = grafito.obtenerArcos();
         while(iterator.hasNext()){
-            System.out.println(iterator.next().getVerticeDestino());
+            Arco<String> arco = iterator.next();
+            System.out.println(arco.getVerticeDestino());
+        }
+
+        System.out.println(grafito.cantidadArcos());
+        System.out.print("\n");
+
+        DeepFirstSearch<String> busquedaIntensiva = new DeepFirstSearch<>();
+        busquedaIntensiva.deepFirstSearch(grafito);
+        HashSet<Integer> visitados = (HashSet<Integer>) busquedaIntensiva.getVisitados();
+        for(Integer visitado : visitados){
+            System.out.println(visitado);
         }
     }
 }
