@@ -1,44 +1,47 @@
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 public class DeepFirstSearch<T> {
-    private final Set<Integer> visitados;
+    private final Set<T> visitados;
+    private Grafo<T> grafo;
 
-    DeepFirstSearch(){
+    public DeepFirstSearch(){
         this.visitados = new HashSet<>();
+        this.grafo = new GrafoDirigido<>();
     }
 
     public void deepFirstSearch(GrafoDirigido<T> grafo){
-        // Vaciar mis vertices visitados
+        // Vaciar mis vertices visitados y setear grafo
         this.visitados.clear();
+        this.grafo = grafo;
 
         // Recorrer cada vertice si no fue visitado
-        Iterator<Integer> verticesKey = grafo.obtenerVertices();
+        Iterator<T> verticesKey = grafo.obtenerVertices();
         while(verticesKey.hasNext()){
             //agarro cada vertice
-            Integer vertice = verticesKey.next();
+            T vertice = verticesKey.next();
             //verifico si el vertice no fue visitado
             if(!this.visitados.contains(vertice)){
-                this.deepFirstSearch(grafo, vertice);
+                this.deepFirstSearch(vertice);
             }
         }
     }
 
-    private void deepFirstSearch(GrafoDirigido<T> g, int idVertice){
-        this.visitados.add(idVertice);
-        Iterator<Integer> iteratorAdyacentes = g.obtenerAdyacentes(idVertice);
-        // Mientras tenga adyacentes hago un deepFirstSearch por cada uno
-        while(iteratorAdyacentes.hasNext()){
-            Integer ady = iteratorAdyacentes.next();
-            if(!this.visitados.contains(ady)){
-                this.deepFirstSearch(g, ady);
+    private void deepFirstSearch(T vertice){
+            this.visitados.add(vertice);
+            Iterator<T> iteratorAdyacentes = this.grafo.obtenerAdyacentes(vertice);
+            // Mientras tenga adyacentes hago un deepFirstSearch por cada uno
+            while(iteratorAdyacentes.hasNext()){
+                T ady = iteratorAdyacentes.next();
+                if(!this.visitados.contains(ady)) {
+                    this.deepFirstSearch(ady);
+                }
             }
-        }
     }
 
-    public Set<Integer> getVisitados() {
-        return visitados;
+    public Set<T> getVisitados() {
+        return this.visitados;
     }
 }
+

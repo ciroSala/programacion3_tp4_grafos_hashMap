@@ -1,20 +1,20 @@
 import java.util.Objects;
 
 public class Arco<T> {
-    private final int verticeDestino;
+    private final T verticeDestino;
     private T etiqueta;
 
-    public Arco(int verticeDestino) {
+    public Arco(T verticeDestino) {
         this.verticeDestino = verticeDestino;
         this.etiqueta = null;
     }
 
-    public Arco(int verticeDestino, T etiqueta) {
+    public Arco(T verticeDestino, T etiqueta) {
         this.verticeDestino = verticeDestino;
         this.etiqueta = etiqueta;
     }
 
-    public int getVerticeDestino() {
+    public T getVerticeDestino() {
         return verticeDestino;
     }
 
@@ -36,7 +36,7 @@ public class Arco<T> {
 
     @Override
     public int hashCode() {
-        return this.verticeDestino;
+        return this.verticeDestino.hashCode();
     }
 }
 

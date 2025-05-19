@@ -4,17 +4,17 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Vertice<T>{
-    private final int key;
+    private final T key;
     private Set<Arco<T>> arcos;
     private String color;
 
-    Vertice(int key){
+    Vertice(T key){
         this.key = key;
         this.arcos = new HashSet<>();
         this.color = "blanco";
     }
 
-    public int getKey() {
+    public T getKey() {
         return this.key;
     }
 
@@ -71,6 +71,6 @@ public class Vertice<T>{
 
     @Override
     public int hashCode() {
-        return this.key;
+        return this.key.hashCode();
     }
 }
