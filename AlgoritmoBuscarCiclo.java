@@ -32,10 +32,8 @@ public class AlgoritmoBuscarCiclo<T> {
 
     private void dfs(T vertice, Grafo<T> grafo) {
         if (tengoCiclo) return; // early exit si ya se encontró ciclo
-
         // Lo agrego a vertices visitados
         visitando.add(vertice);
-
         // Obtengo sus adyacentes y los recorro
         Iterator<T> adyacentes = grafo.obtenerAdyacentes(vertice);
         while (adyacentes.hasNext()) {
@@ -45,7 +43,8 @@ public class AlgoritmoBuscarCiclo<T> {
                 // Si ya está en el camino actual, hay un ciclo
                 tengoCiclo = true;
                 return;
-            } else if (!visitados.contains(adyacente)) { // Si no, verifico que ya no haya sido visitado y sigo la dfs
+            } else if (!visitados.contains(adyacente)) {
+                // Si no, verifico que ya no haya sido visitado y sigo la dfs
                 dfs(adyacente, grafo);
             }
             if (tengoCiclo) return; // Cortar recursión si ya se encontró

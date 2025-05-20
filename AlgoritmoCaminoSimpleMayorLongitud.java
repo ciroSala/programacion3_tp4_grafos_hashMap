@@ -15,25 +15,33 @@ public class AlgoritmoCaminoSimpleMayorLongitud<T> {
     }
 
     private void buscarCaminoMayorLongitud(Grafo<T> grafo, T vertice, T destino, LinkedList<T> caminoActual){
-        caminoActual.add(vertice);
-        if(vertice.equals(destino)){ // Si llegue al vertice buscado me fijo si el camino es el mas largo hasta el momento y lo guardo
+        // Comprobación si se llegó al destino.
+        if(vertice.equals(destino)){
+            // Si llegue al vertice buscado me fijo si el camino es el mas largo hasta el momento y lo guardo
             if(caminoActual.size()>this.caminoMasLargo.size()){
-                this.caminoMasLargo = caminoActual;
+                this.caminoMasLargo = new LinkedList<>(caminoActual); // Hacer una copia
             }
-        }else{
-            // Desde el origen voy recorriendo los caminos posibles
-            this.visitando.add(vertice);
-            Iterator<T> adyacentes = grafo.obtenerAdyacentes(vertice);
-            T value = null;
-            while(adyacentes.hasNext()){
-                // Por cada adyacente si no fue visitado aplico busqueda recursiva
-                // y cada elemento lo agrego al camino
-                T adyacente = adyacentes.next();
-                if(!this.visitando.contains(adyacente)){
-                    buscarCaminoMayorLongitud(grafo, adyacente, destino, caminoActual);
-                }
+            // No se retorna aquí, permitiendo que otras ramas sigan explorando.
+        }
+        // 2. Explorar adyacentes
+        //  Desde el vertice voy recorriendo los caminos posibles
+        Iterator<T> adyacentes = grafo.obtenerAdyacentes(vertice);
+        T value = null;
+        while(adyacentes.hasNext()){
+            T adyacente = adyacentes.next();
+            // 3. Importante: Solo explorar adyacentes que NO han sido visitados en esta RAMA
+            if(!this.visitando.contains(adyacente)){
+                // Marcar el ADYACENTE como visitado y agregarlo al camino ANTES de la llamada recursiva
+                this.visitando.add(adyacente);
+                caminoActual.add(adyacente);
+
+                // Llamada recursiva para el adyacente
+                buscarCaminoMayorLongitud(grafo, adyacente, destino, caminoActual);
             }
+
+            // 4. Retroceso: Desmarcar el ADYACENTE y quitarlo del camino AL SALIR de la llamada recursiva
             this.visitando.remove(vertice);
+            caminoActual.removeLast();
         }
     }
 }

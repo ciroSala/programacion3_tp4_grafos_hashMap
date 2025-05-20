@@ -123,23 +123,15 @@ public class GrafoDirigido<T> implements Grafo<T> {
         return vertices.iterator();
     }
 
-    @Override
+    @Override // Queda O(a) cantidad de arcos que tenga el vertice
     public Iterator<T> obtenerAdyacentes(T verticeId) {
         // TODO Auto-generated method stub
         // Vertices adyacentes son los que yo puedo alcanzar
         Vertice<T> vertice = this.vertices.get(verticeId);
-        LinkedList<T> adyacentes = new LinkedList<>();
         if(vertice!=null){
-            // Agarro los arcos del vertice
-            Set<Arco<T>> arcos = vertice.getArcos();
-            // Creo un iterator para recorrer los arcos
-            Iterator<Arco<T>> iterator = arcos.iterator();
-            // Creo una lista vinculada para obtener los adyacentes (Los vertices destino de mis arcos)
-            while(iterator.hasNext()){
-                adyacentes.add(iterator.next().getVerticeDestino());
-            }
+            return vertice.iterator();
         }
-        return adyacentes.iterator();
+        return null;
     }
 
     public Iterator<Arco<T>> obtenerArcos() {

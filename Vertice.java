@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
-public class Vertice<T>{
+public class Vertice<T> implements Iterable<T>{
     private final T key;
     private Set<Arco<T>> arcos;
     private String color;
@@ -72,5 +72,10 @@ public class Vertice<T>{
     @Override
     public int hashCode() {
         return this.key.hashCode();
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new IteratorArcos<>(this.arcos.iterator());
     }
 }
