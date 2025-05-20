@@ -8,7 +8,7 @@ public class Main {
         // Creo un grafo dirigdo donde las etiquetas de los arcos son valores Float
         GrafoDirigido<Character> grafito = new GrafoDirigido<>();
         AlgoritmoBuscarCiclo<Character> algoritmo = new AlgoritmoBuscarCiclo<>();
-        BreadhtFirstSearch<Character> busquePorCapas = new BreadhtFirstSearch<>();
+        BreadthFirstSearch<Character> busquePorCapas = new BreadthFirstSearch<>();
 
         // Agrego los vertices 1 y 2
         grafito.agregarVertice('A');

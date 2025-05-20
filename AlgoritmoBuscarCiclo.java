@@ -4,36 +4,33 @@ import java.util.Set;
 
 public class AlgoritmoBuscarCiclo<T> {
     private boolean tengoCiclo;
-    private Grafo<T> grafo;
     private final Set<T> visitados;
     private final Set<T> visitando;
 
     public AlgoritmoBuscarCiclo() {
-        this.grafo = new GrafoDirigido<>();
         this.visitados = new HashSet<>();
         this.visitando = new HashSet<>();
         this.tengoCiclo = false;
     }
 
-    public void buscarCiclo(Grafo<T> g) {
+    public void buscarCiclo(Grafo<T> grafo) {
         // Recibo el grafo
         // Reinicio la variable de tengo ciclo
         // Reinicio los vertices visitados
         this.tengoCiclo = false;
-        this.grafo = g;
         this.visitados.clear();
 
         // Recorro los vertices
-        Iterator<T> verticesKey = this.grafo.obtenerVertices();
+        Iterator<T> verticesKey = grafo.obtenerVertices();
         while (verticesKey.hasNext()) {
             T vertice = verticesKey.next();
             if (!this.visitados.contains(vertice)) {
-                this.dfs(vertice);
+                this.dfs(vertice, grafo);
             }
         }
     }
 
-    private void dfs(T vertice) {
+    private void dfs(T vertice, Grafo<T> grafo) {
         if (tengoCiclo) return; // early exit si ya se encontró ciclo
 
         // Lo agrego a vertices visitados
@@ -49,11 +46,10 @@ public class AlgoritmoBuscarCiclo<T> {
                 tengoCiclo = true;
                 return;
             } else if (!visitados.contains(adyacente)) { // Si no, verifico que ya no haya sido visitado y sigo la dfs
-                dfs(adyacente);
+                dfs(adyacente, grafo);
             }
             if (tengoCiclo) return; // Cortar recursión si ya se encontró
         }
-
         visitando.remove(vertice);
         visitados.add(vertice);
     }
