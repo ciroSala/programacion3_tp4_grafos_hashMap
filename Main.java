@@ -6,45 +6,29 @@ import java.util.Iterator;
 public class Main {
     public static void main(String[] args) {
         // Creo un grafo dirigdo donde las etiquetas de los arcos son valores Float
-        GrafoDirigido<Character> grafito = new GrafoDirigido<>();
-        AlgoritmoBuscarCiclo<Character> algoritmo = new AlgoritmoBuscarCiclo<>();
-        BreadthFirstSearch<Character> busquePorCapas = new BreadthFirstSearch<>();
+        GrafoDirigido<Integer> grafito = new GrafoDirigido<>();
+        AlgoritmoBuscarCiclo<Integer> algoritmo = new AlgoritmoBuscarCiclo<>();
+        BreadthFirstSearch<Integer> busquePorCapas = new BreadthFirstSearch<>();
+        AlgoritmoCaminoSimpleMayorLongitud<Integer> mayoCamino = new AlgoritmoCaminoSimpleMayorLongitud<>();
 
         // Agrego los vertices 1 y 2
-        grafito.agregarVertice('A');
-        grafito.agregarVertice('B');
-        grafito.agregarVertice('C');
-        grafito.agregarVertice('E');
-        grafito.agregarVertice('D');
-        grafito.agregarVertice('F');
-        grafito.agregarVertice('W');
-        grafito.agregarVertice('G');
-        grafito.agregarVertice('X');
-        grafito.agregarVertice('Y');
-        grafito.agregarVertice('H');
-        grafito.agregarVertice('Z');
-        grafito.agregarVertice('K');
-        grafito.agregarVertice('I');
-        grafito.agregarVertice('J');
+        grafito.agregarVertice(8);
+        grafito.agregarVertice(10);
+        grafito.agregarVertice(5);
+        grafito.agregarVertice(4);
+        grafito.agregarVertice(1);
+        grafito.agregarVertice(3);
+        grafito.agregarVertice(2);
 
-        grafito.agregarArco('A', 'B', null);
-        grafito.agregarArco('A', 'C', null);
-        grafito.agregarArco('A', 'E', null);
-        grafito.agregarArco('A', 'D', null);
-        grafito.agregarArco('B', 'F', null);
-        grafito.agregarArco('C', 'W', null);
-        grafito.agregarArco('C', 'G', null);
-        grafito.agregarArco('C', 'X', null);
-        grafito.agregarArco('E', 'Y', null);
-        grafito.agregarArco('E', 'H', null);
-        grafito.agregarArco('E', 'Z', null);
-        grafito.agregarArco('D', 'J', null);
-        grafito.agregarArco('D', 'I', null);
-        grafito.agregarArco('D', 'K', null);
 
-        algoritmo.buscarCiclo(grafito);
-        System.out.println(algoritmo.tengoCiclo());
+        grafito.agregarArco(8, 10, null);
+        grafito.agregarArco(10, 5, null);
+        grafito.agregarArco(8, 4, null);
+        grafito.agregarArco(4, 1, null);
+        grafito.agregarArco(4, 3, null);
+        grafito.agregarArco(8, 2, null);
+        grafito.agregarArco(2, 4, null);
 
-        busquePorCapas.bfs(grafito);
+        mayoCamino.buscarCaminoMayorLongitud(grafito,8,3);
     }
 }

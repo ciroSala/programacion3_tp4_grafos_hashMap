@@ -2,15 +2,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class DeepFirstSearch<T> {
+public class DepthFirstSearch<T> {
     private final Set<T> visitados;
 
-    public DeepFirstSearch(){
+    public DepthFirstSearch(){
         this.visitados = new HashSet<>();
-        this.grafo = new GrafoDirigido<>();
     }
 
-    public void deepFirstSearch(GrafoDirigido<T> grafo){
+    public void depthFirstSearch(GrafoDirigido<T> grafo){
         // Vaciar mis vertices visitados y setear grafo
         this.visitados.clear();
 
@@ -23,21 +22,21 @@ public class DeepFirstSearch<T> {
             //verifico si el vertice no fue visitado
             if(!this.visitados.contains(vertice)){
                 this.visitados.add(vertice);
-                this.deepFirstSearch(vertice, grafo);
+                this.depthFirstSearch(vertice, grafo);
             }
         }
     }
 
-    private void deepFirstSearch(T vertice, Grafo<T> grafo){
-            Iterator<T> iteratorAdyacentes = grafo.obtenerAdyacentes(vertice);
-            // Mientras tenga adyacentes hago un deepFirstSearch por cada uno
-            while(iteratorAdyacentes.hasNext()){
-                T ady = iteratorAdyacentes.next();
-                if(!this.visitados.contains(ady)) {
-                    this.visitados.add(ady);
-                    this.deepFirstSearch(ady, grafo);
-                }
+    private void depthFirstSearch(T vertice, GrafoDirigido<T> grafo){
+        Iterator<T> iteratorAdyacentes = grafo.obtenerAdyacentes(vertice);
+        // Mientras tenga adyacentes hago un deepFirstSearch por cada uno
+        while(iteratorAdyacentes.hasNext()){
+            T ady = iteratorAdyacentes.next();
+            if(!this.visitados.contains(ady)) {
+                this.visitados.add(ady);
+                this.depthFirstSearch(ady, grafo);
             }
+        }
     }
 
     public Set<T> getVisitados() {
