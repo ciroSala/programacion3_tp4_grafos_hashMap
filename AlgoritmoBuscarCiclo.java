@@ -3,21 +3,17 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class AlgoritmoBuscarCiclo<T> {
-    private boolean tengoCiclo;
     private final Set<T> visitados;
     private final Set<T> visitando;
 
     public AlgoritmoBuscarCiclo() {
         this.visitados = new HashSet<>();
         this.visitando = new HashSet<>();
-        this.tengoCiclo = false;
     }
 
     public boolean searchCycle(Grafo<T> grafo) {
         // Recibo el grafo
-        // Reinicio la variable de tengo ciclo
         // Reinicio los vertices visitados
-        this.tengoCiclo = false;
         this.visitados.clear();
 
         // Recorro los vertices
@@ -25,8 +21,6 @@ public class AlgoritmoBuscarCiclo<T> {
         while (verticesKey.hasNext()) {
             T vertice = verticesKey.next();
             if (!this.visitados.contains(vertice)) {
-                // Lo agrego a vertices visitados
-                visitando.add(vertice);
                 if(this.searchCycle(vertice, grafo)){
                     return true;
                 }
@@ -36,6 +30,7 @@ public class AlgoritmoBuscarCiclo<T> {
     }
 
     private boolean searchCycle(T vertice, Grafo<T> grafo) {
+        this.visitando.add(vertice); // Agrego el vertice a visitando
         // Obtengo sus adyacentes y los recorro
         Iterator<T> adyacentes = grafo.obtenerAdyacentes(vertice);
         while (adyacentes.hasNext()) {
@@ -44,8 +39,7 @@ public class AlgoritmoBuscarCiclo<T> {
             if (visitando.contains(adyacente)) {
                 // Si ya está en el camino actual, hay un ciclo
                 return true;
-            } else if (!visitados.contains(adyacente)) {
-                // Si no, verifico que ya no haya sido visitado y sigo la dfs
+            } else if (!visitados.contains(adyacente)) { //Si no se esta visitando y no esta visitado
                 if(this.searchCycle(adyacente, grafo)){
                     return true;
                 }
@@ -54,9 +48,5 @@ public class AlgoritmoBuscarCiclo<T> {
         visitando.remove(vertice);
         visitados.add(vertice);
         return false;
-    }
-
-    public boolean tengoCiclo(){
-        return this.tengoCiclo;
     }
 }
