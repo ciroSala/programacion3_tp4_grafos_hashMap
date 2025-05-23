@@ -21,19 +21,18 @@ public class DepthFirstSearch<T> {
             T vertice = verticesKey.next();
             //verifico si el vertice no fue visitado
             if(!this.visitados.contains(vertice)){
-                this.visitados.add(vertice);
                 this.depthFirstSearch(vertice, grafo);
             }
         }
     }
 
     private void depthFirstSearch(T vertice, GrafoDirigido<T> grafo){
+        this.visitados.add(vertice);
         Iterator<T> iteratorAdyacentes = grafo.obtenerAdyacentes(vertice);
         // Mientras tenga adyacentes hago un deepFirstSearch por cada uno
         while(iteratorAdyacentes.hasNext()){
             T ady = iteratorAdyacentes.next();
             if(!this.visitados.contains(ady)) {
-                this.visitados.add(ady);
                 this.depthFirstSearch(ady, grafo);
             }
         }

@@ -11,10 +11,9 @@ public class CaminoMayorLongitudBacktraking<T> {
 
     public LinkedList<T> encontrarCaminoMasLargo(GrafoDirigido<T> grafo, T origen, T destino){
         this.caminoMasLargo.clear();
-        this.visitando.clear();
         LinkedList<T> caminoActual = new LinkedList<>();
 
-        // Agrego el primero al camino y como visitando
+        // Agrego el primero al camino y como estado visitando
         caminoActual.add(origen);
         this.visitando.add(origen);
 
